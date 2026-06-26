@@ -190,6 +190,19 @@ function closeLetter(){
 closeBtn.addEventListener('click', closeLetter);
 
 /* ============================================================
+   VOLUME TOGGLE
+   ============================================================ */
+let isMuted = false;
+const volBtn = $('volBtn');
+volBtn.addEventListener('click', () => {
+  isMuted = !isMuted;
+  $('bgm').muted = isMuted;
+  volBtn.classList.toggle('is-muted', isMuted);
+  volBtn.innerHTML = isMuted ? '&#9834;' : '&#9835;';
+  volBtn.setAttribute('aria-label', isMuted ? 'Unmute music' : 'Mute music');
+});
+
+/* ============================================================
    CUPID AIM GAME — shoot the arrow at the letter to open it
    ============================================================ */
 const DEFAULT_HINT = 'Hold to draw the bow — release to shoot ♡';
@@ -505,6 +518,7 @@ function sayYes(){
   content.classList.add('is-won');
   win.classList.add('is-celebrate');
   if (!reduceMotion){ heartBurst(); celebrate(); }
+  $('bgm').play().catch(() => {});
 }
 
 yesBtn.addEventListener('click', sayYes);
@@ -650,6 +664,9 @@ function reset(){
   noBtn.style.position = '';
   noBtn.style.left = '';
   noBtn.style.top = '';
+  const bgm = $('bgm');
+  bgm.pause();
+  bgm.currentTime = 0;
 }
 
 /* ============================================================
